@@ -1,0 +1,121 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class doubleMoney : MonoBehaviour
+{
+    //public GameObject money;
+    public GameObject gold;
+    public GameObject diamond;
+    private GameObject newMoney;
+
+    private int goldNameCount=0;
+    private int diamondNameCount=0;
+
+    private GameObject player;
+    private List<GameObject> moneys_;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        moneys_ = player.GetComponent<playerController>().moneys;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("takenMoney") && moneys_.Count>0)
+        {
+
+            for (int i = 0; i < moneys_.Count; i++)
+            {
+
+                if (other.gameObject.transform.GetChild(0).gameObject.name == "money")
+                {
+                    if(moneys_[i].gameObject.name == other.gameObject.name)
+                    {
+
+                        goldNameCount++;
+
+                        //other.GetComponent<moneyChange>().isNeedchange = true;
+                        //other.gameObject.GetComponent<moneyChange>().isToBeGold = true;
+
+
+                         
+                        newMoney = Instantiate(gold, other.gameObject.transform.position, Quaternion.identity);
+                        moneys_[i].gameObject.SetActive(false); 
+                        moneys_[i] = null;
+                        //other.gameObject.SetActive(false);
+                        moneys_[i] = newMoney;
+                        moneys_[i].gameObject.name = "Gold_inst_" + goldNameCount.ToString();
+
+                        StartCoroutine(notChangeForWhile(moneys_[i]));
+                        StartCoroutine(biggerForWhile(moneys_[i].gameObject));
+                        //other.gameObject.GetComponent<biggerForWhile>().isNeedToBeBigger = true;
+                    }
+
+                }
+                if (other.gameObject.transform.GetChild(0).gameObject.name == "goldx")
+                {
+                    if (moneys_[i].gameObject.name == other.gameObject.name)
+                    {
+                        diamondNameCount++;
+
+                        //other.gameObject.GetComponent<moneyChange>().isNeedchange = true;
+                        //other.gameObject.GetComponent<moneyChange>().isToBeDiamond = true;
+
+                        
+                        
+                        newMoney = Instantiate(diamond, other.gameObject.transform.position, Quaternion.identity);
+                        moneys_[i].gameObject.SetActive(false);
+                        moneys_[i] = null;
+                        //other.gameObject.SetActive(false);
+                        moneys_[i] = newMoney;
+
+                        moneys_[i].gameObject.name = "Diamond_inst_" + diamondNameCount.ToString();
+
+                        StartCoroutine(notChangeForWhile(moneys_[i]));
+                        StartCoroutine(biggerForWhile(moneys_[i].gameObject));
+                        //other.gameObject.GetComponent<biggerForWhile>().isNeedToBeBigger = true;
+                    }
+
+                }
+            }
+
+            TotalMoney.inPortal = true;
+        }
+    }
+
+    IEnumerator notChangeForWhile(GameObject money)
+    {
+        money.gameObject.tag = "Untagged";
+        yield return new WaitForSeconds(0.5f);
+        
+        //foreach(var a in moneys_) //  bugdan kaçýnmak için obje hala listede mi diye teyidini yaptým
+        //{
+        //    if(a.gameObject.name == money.gameObject.name)
+        //    {
+        //        money.gameObject.tag = "takenMoney";
+        //    }
+        //}
+    
+        
+        
+            
+        money.gameObject.tag = "takenMoney";
+        
+    
+    
+    }
+    
+    
+    IEnumerator biggerForWhile(GameObject a)
+    {
+    
+                      
+    
+            a.gameObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            yield return new WaitForSeconds(0.05f);
+            a.gameObject.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+        
+    
+    }
+}
