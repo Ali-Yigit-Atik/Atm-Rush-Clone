@@ -13,21 +13,32 @@ public class obstacles : MonoBehaviour
     float ZPositionOld;
     private float axeStartAngle;
     private bool goBack = false;
+    public bool isLeftMovingCube = false;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         moneys_ = player.GetComponent<playerController>().moneys;
-        if (gameObject.CompareTag("axe"))
+
+
+
+        if (gameObject.CompareTag("movingCube") && isLeftMovingCube == false)
         {
-            axeStartAngle = gameObject.transform.rotation.z;
+            transform.DOMoveX(transform.position.x - 7.5f, 2).SetLoops(10000, LoopType.Yoyo).SetEase(Ease.InOutSine);
+
+            Debug.Log("transform.DOMoveY(-2.2f, Random.Range(0.2f, 2f)).SetLoops(10000, LoopType.Yoyo).SetEase(Ease.InOutSine);");
+        }
+        else if (gameObject.CompareTag("movingCube") && isLeftMovingCube)
+        {
+            transform.DOMoveX(transform.position.x + 7.5f, 2).SetLoops(10000, LoopType.Yoyo).SetEase(Ease.InOutSine);
+
         }
     }
 
 
     private void Update()
     {
-        if (playerController.isHitObstacle && goBack ==true)
+        if (playerController.isHitObstacle && goBack == true)
         {
 
 
@@ -52,31 +63,27 @@ public class obstacles : MonoBehaviour
 
         if (gameObject.CompareTag("axe"))
         {
-        
-        
-            
-        
+
             //float angle = (Mathf.Sin(Time.time) * 45); //tweak this to change frequency
-            float angle = Mathf.PingPong(Time.time*50, 90);
+            float angle = Mathf.PingPong(Time.time * 50, 90);
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        
-        
-        
-        
+
+
         }
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (gameObject.CompareTag("obstacle") )
+        if (gameObject.CompareTag("obstacle"))
         {
             Debug.Log("obstacle çalýþýor");
-            
+
             if (collision.gameObject.CompareTag("takenMoney") && moneys_.Count > 0)
             {
                 Debug.Log("takenMoney çalýþýor");
-                
+
 
                 var moneyOrder = 0;
                 for (int i = 0; i < moneys_.Count; i++)
@@ -85,9 +92,9 @@ public class obstacles : MonoBehaviour
                     {
                         Debug.Log(" for dögüsü obstacle çalýþýor");
                         moneyOrder = i;
-                        
+
                     }
-                    
+
                 }
 
                 if (moneys_[moneyOrder].gameObject == moneys_[(moneys_.Count - 1)])
@@ -96,7 +103,7 @@ public class obstacles : MonoBehaviour
                     moneys_[moneyOrder].gameObject.tag = "Untagged";
                     moneys_.RemoveAt(moneyOrder);
                     collision.gameObject.SetActive(false);
-                    
+
                 }
                 else if (moneys_[moneyOrder].gameObject != moneys_[(moneys_.Count - 1)])
                 {
@@ -111,16 +118,16 @@ public class obstacles : MonoBehaviour
                             collision.gameObject.SetActive(false);
                             moneys_.RemoveAt(j);
                         }
-                        else if (x == 1 || x==0)
+                        else if (x == 1 || x == 0)
                         {
-                            
-                            
-                            
+
+
+
                             GameObject oldGameObject = moneys_[j].gameObject;
-                            
+
                             moneys_.RemoveAt(j);
 
-                            
+
 
                             var XPosition = playerController.midOfRoad + Random.Range(-3f, 3f);
                             var ZPosition = gameObject.transform.position.z + Random.Range(5, 8f);
@@ -140,7 +147,7 @@ public class obstacles : MonoBehaviour
 
                         }
 
-                        
+
                     }
                 }
             }
@@ -148,16 +155,74 @@ public class obstacles : MonoBehaviour
             if (collision.gameObject.CompareTag("moneyGrubber"))
             {
 
-                playerController.isHitObstacle = true;
-                goBack = true;
-                ZPositionOld = player.transform.position.z;
+                //playerController.isHitObstacle = true;
+                //goBack = true;
+                //ZPositionOld = player.transform.position.z;
+
+                if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("movingCube"))  // Yandaki kodda parent != null yazmamýn sebebi, eðer parent kontrolü yapmazsam else yapýsýnda sanki parent bir obje olmak zorundaymýþ gibi davranýyor ve parebt objesi olmayan obstacles'larda kodu çalýþtýrmýyor. Bu bugdan kaçýnmak için null kontrolü yaptým
+                {
+                    if (gameObject.transform.position.z > collision.transform.position.z)
+                    {
+                        playerController.isHitObstacle = true;
+                        goBack = true;
+                        ZPositionOld = player.transform.position.z;
+                    }
+
+                }
+                else
+                {
+                    playerController.isHitObstacle = true;
+                    goBack = true;
+                    ZPositionOld = player.transform.position.z;
+                }
+
+                for (int j = 0; j < moneys_.Count; j++)  // axe ve diken obstacle'ý paralara vurmadan direk karaktere vurabiliyor(yanden vurunca). Karakter geri giderken paralar yanmýyor. Bunu engellemek için yukarýda yazdýpým kodu burayada yazdým.
+                {
+                    moneys_[j].gameObject.tag = "Untagged";
+                    var x = Random.Range(0, 2);
+
+                    if (x == 2)
+                    {
+                        collision.gameObject.SetActive(false);
+                        moneys_.RemoveAt(j);
+                    }
+                    else if (x == 1 || x == 0)
+                    {
+
+
+
+                        GameObject oldGameObject = moneys_[j].gameObject;
+
+                        moneys_.RemoveAt(j);
+
+
+
+                        var XPosition = playerController.midOfRoad + Random.Range(-3f, 3f);
+                        var ZPosition = gameObject.transform.position.z + Random.Range(5, 8f);
+
+                        if (XPosition < playerController.minXLimit)
+                        {
+                            XPosition = playerController.minXLimit;
+                        }
+                        if (XPosition > playerController.maxXLimit)
+                        {
+                            XPosition = playerController.maxXLimit;
+                        }
+
+                        oldGameObject.gameObject.transform.position = new Vector3(XPosition, oldGameObject.gameObject.transform.position.y, ZPosition);
+
+                        oldGameObject.tag = "money";
+
+                    }
+
+
+                }
 
             }
 
+
         }
 
-       
-    }
 
-   
+    }
 }
