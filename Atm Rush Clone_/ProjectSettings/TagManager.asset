@@ -11,6 +11,7 @@ TagManager:
   - obstacle
   - axe
   - movingCube
+  - FinishLineAtm
   layers:
   - Default
   - TransparentFX
