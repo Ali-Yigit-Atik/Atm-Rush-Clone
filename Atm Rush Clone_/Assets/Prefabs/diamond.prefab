@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8838851100151990350}
   - component: {fileID: 1526135136}
   - component: {fileID: 1526135135}
+  - component: {fileID: 7747089910505208363}
   m_Layer: 0
   m_Name: diamond
   m_TagString: money
@@ -73,6 +74,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7729a0db5da5d67488314456d02051ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7747089910505208363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8838851100151990337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ebf6e66ff48b144a5054feb02eba5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5936744416544277013
