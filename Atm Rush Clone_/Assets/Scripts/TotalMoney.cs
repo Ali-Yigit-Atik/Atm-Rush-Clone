@@ -21,7 +21,7 @@ public class TotalMoney : MonoBehaviour
         currentMoney = moneys_.Count;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
 

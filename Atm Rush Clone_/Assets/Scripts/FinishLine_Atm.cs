@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FinishLine_Atm : MonoBehaviour
 {
-    //public TextMeshProUGUI moneyInAtm;
+    
     private float moneyInAtmCount;
 
     private GameObject player;
@@ -23,12 +23,12 @@ public class FinishLine_Atm : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        //moneyInAtm.text = moneyInAtmCount.ToString();
+        
 
-        if (moneyAtm[0].gameObject != null)
+        if (moneyAtm.Count>0)
         {
             
 
@@ -47,7 +47,7 @@ public class FinishLine_Atm : MonoBehaviour
                 if (moneyAtm[i].gameObject.transform.position.x < playerController.minXLimit + 1)
                 {
                     moneyAtm[i].gameObject.SetActive(false);
-                    //onEnter = false;
+                    
                 }
             }
         }

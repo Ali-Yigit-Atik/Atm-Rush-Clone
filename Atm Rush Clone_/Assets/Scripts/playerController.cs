@@ -20,11 +20,11 @@ public class playerController : MonoBehaviour
         midOfRoad = roadCollider.bounds.center.x;
         minXLimit = roadCollider.bounds.center.x - roadCollider.bounds.size.x/2;
         maxXLimit = roadCollider.bounds.center.x + roadCollider.bounds.size.x / 2;
-        //moneys = null;
+        
 
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
 

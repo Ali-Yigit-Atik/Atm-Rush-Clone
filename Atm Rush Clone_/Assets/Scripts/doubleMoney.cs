@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class doubleMoney : MonoBehaviour
 {
-    //public GameObject money;
+    
     public GameObject gold;
     public GameObject diamond;
     private GameObject newMoney;
@@ -35,21 +35,19 @@ public class doubleMoney : MonoBehaviour
 
                         goldNameCount++;
 
-                        //other.GetComponent<moneyChange>().isNeedchange = true;
-                        //other.gameObject.GetComponent<moneyChange>().isToBeGold = true;
-
+                        
 
                          
                         newMoney = Instantiate(gold, other.gameObject.transform.position, Quaternion.identity);
                         moneys_[i].gameObject.SetActive(false); 
                         moneys_[i] = null;
-                        //other.gameObject.SetActive(false);
+                        
                         moneys_[i] = newMoney;
                         moneys_[i].gameObject.name = "Gold_inst_" + goldNameCount.ToString();
 
                         StartCoroutine(notChangeForWhile(moneys_[i]));
                         StartCoroutine(biggerForWhile(moneys_[i].gameObject));
-                        //other.gameObject.GetComponent<biggerForWhile>().isNeedToBeBigger = true;
+                        
                     }
 
                 }
@@ -59,22 +57,20 @@ public class doubleMoney : MonoBehaviour
                     {
                         diamondNameCount++;
 
-                        //other.gameObject.GetComponent<moneyChange>().isNeedchange = true;
-                        //other.gameObject.GetComponent<moneyChange>().isToBeDiamond = true;
-
+                        
                         
                         
                         newMoney = Instantiate(diamond, other.gameObject.transform.position, Quaternion.identity);
                         moneys_[i].gameObject.SetActive(false);
                         moneys_[i] = null;
-                        //other.gameObject.SetActive(false);
+                        
                         moneys_[i] = newMoney;
 
                         moneys_[i].gameObject.name = "Diamond_inst_" + diamondNameCount.ToString();
 
                         StartCoroutine(notChangeForWhile(moneys_[i]));
                         StartCoroutine(biggerForWhile(moneys_[i].gameObject));
-                        //other.gameObject.GetComponent<biggerForWhile>().isNeedToBeBigger = true;
+                        
                     }
 
                 }
@@ -89,16 +85,7 @@ public class doubleMoney : MonoBehaviour
         money.gameObject.tag = "Untagged";
         yield return new WaitForSeconds(0.5f);
         
-        //foreach(var a in moneys_) //  bugdan kaçýnmak için obje hala listede mi diye teyidini yaptým
-        //{
-        //    if(a.gameObject.name == money.gameObject.name)
-        //    {
-        //        money.gameObject.tag = "takenMoney";
-        //    }
-        //}
-    
-        
-        
+         
             
         money.gameObject.tag = "takenMoney";
         

@@ -9,9 +9,7 @@ using DG.Tweening;
 public class obstacles : MonoBehaviour
 {
     private GameObject player;
-    private List<GameObject> moneys_;
-    float ZPositionOld;
-    private float axeStartAngle;
+    private List<GameObject> moneys_;        
     private bool goBack = false;
     public bool isLeftMovingCube = false;
 
@@ -26,7 +24,7 @@ public class obstacles : MonoBehaviour
         {
             transform.DOMoveX(transform.position.x - 7.5f, 2).SetLoops(10000, LoopType.Yoyo).SetEase(Ease.InOutSine);
 
-            Debug.Log("transform.DOMoveY(-2.2f, Random.Range(0.2f, 2f)).SetLoops(10000, LoopType.Yoyo).SetEase(Ease.InOutSine);");
+            
         }
         else if (gameObject.CompareTag("movingCube") && isLeftMovingCube)
         {
@@ -42,7 +40,7 @@ public class obstacles : MonoBehaviour
         {
 
 
-            Debug.Log("ZPositionOld" + ZPositionOld);
+            
 
             var target = gameObject.transform.position;
             target.x = player.transform.position.x;
@@ -56,7 +54,7 @@ public class obstacles : MonoBehaviour
             {
                 playerController.isHitObstacle = false;
                 goBack = false;
-                Debug.Log("sznjasfkjafjknaj");
+                
 
             }
         }
@@ -64,7 +62,7 @@ public class obstacles : MonoBehaviour
         if (gameObject.CompareTag("axe"))
         {
 
-            //float angle = (Mathf.Sin(Time.time) * 45); //tweak this to change frequency
+            //float angle = (Mathf.Sin(Time.time) * 90); 
             float angle = Mathf.PingPong(Time.time * 50, 90);
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
@@ -78,11 +76,11 @@ public class obstacles : MonoBehaviour
 
         if (gameObject.CompareTag("obstacle"))
         {
-            Debug.Log("obstacle çalýþýor");
+            //Debug.Log("obstacle çalýþýyor");
 
             if (collision.gameObject.CompareTag("takenMoney") && moneys_.Count > 0)
             {
-                Debug.Log("takenMoney çalýþýor");
+                //Debug.Log("takenMoney çalýþýyor");
 
 
                 var moneyOrder = 0;
@@ -90,7 +88,7 @@ public class obstacles : MonoBehaviour
                 {
                     if (moneys_[i].gameObject.name == collision.gameObject.name)
                     {
-                        Debug.Log(" for dögüsü obstacle çalýþýor");
+                        //Debug.Log(" for dögüsü obstacle çalýþýyor");
                         moneyOrder = i;
 
                     }
@@ -107,7 +105,7 @@ public class obstacles : MonoBehaviour
                 }
                 else if (moneys_[moneyOrder].gameObject != moneys_[(moneys_.Count - 1)])
                 {
-                    Debug.Log(" for dögüsü moneys_[i].gameObject != moneys_[(moneys_.Count - 1)] çalýþýor");
+                    //Debug.Log(" for döngüsü moneys_[i].gameObject != moneys_[(moneys_.Count - 1)] çalýþýyor");
                     for (int j = moneyOrder; j < moneys_.Count; j++)
                     {
                         moneys_[j].gameObject.tag = "Untagged";
@@ -155,17 +153,15 @@ public class obstacles : MonoBehaviour
             if (collision.gameObject.CompareTag("moneyGrubber"))
             {
 
-                //playerController.isHitObstacle = true;
-                //goBack = true;
-                //ZPositionOld = player.transform.position.z;
+                
 
-                if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("movingCube"))  // Yandaki kodda parent != null yazmamýn sebebi, eðer parent kontrolü yapmazsam else yapýsýnda sanki parent bir obje olmak zorundaymýþ gibi davranýyor ve parebt objesi olmayan obstacles'larda kodu çalýþtýrmýyor. Bu bugdan kaçýnmak için null kontrolü yaptým
+                if (gameObject.transform.parent != null && gameObject.transform.parent.CompareTag("movingCube"))  // Yandaki kodda parent != null yazmamýn sebebi, eðer parent kontrolü yapmazsam else yapýsýnda sanki parent bir obje olmak zorundaymýþ gibi davranýyor ve parent objesi olmayan obstacles'larda kodu çalýþtýrmýyor. Bu bugdan kaçýnmak için null kontrolü yaptým
                 {
                     if (gameObject.transform.position.z > collision.transform.position.z)
                     {
                         playerController.isHitObstacle = true;
                         goBack = true;
-                        ZPositionOld = player.transform.position.z;
+                        
                     }
 
                 }
@@ -173,10 +169,10 @@ public class obstacles : MonoBehaviour
                 {
                     playerController.isHitObstacle = true;
                     goBack = true;
-                    ZPositionOld = player.transform.position.z;
+                    
                 }
 
-                for (int j = 0; j < moneys_.Count; j++)  // axe ve diken obstacle'ý paralara vurmadan direk karaktere vurabiliyor(yanden vurunca). Karakter geri giderken paralar yanmýyor. Bunu engellemek için yukarýda yazdýpým kodu burayada yazdým.
+                for (int j = 0; j < moneys_.Count; j++)  // axe ve diken obstacle'ý paralara vurmadan direk karaktere vurabiliyor(yanden vurunca). Karakter geri giderken paralar yanmýyor. Bunu engellemek için yukarýda yazdýðým kodu burayada yazdým.
                 {
                     moneys_[j].gameObject.tag = "Untagged";
                     var x = Random.Range(0, 2);
